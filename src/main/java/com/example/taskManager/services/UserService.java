@@ -1,14 +1,14 @@
 package com.example.taskManager.services;
 
-import com.example.taskManager.repositories.UsersInterface;
+import com.example.taskManager.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-    private final UsersInterface usersInterface;
+    private final UsersRepository usersRepository;
 
-    public UserService(UsersInterface usersInterface) {
-        this.usersInterface = usersInterface;
+    public UserService(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 }

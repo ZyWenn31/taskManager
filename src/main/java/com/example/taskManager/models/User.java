@@ -1,6 +1,10 @@
 package com.example.taskManager.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,12 +19,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
 
+    @NotNull(message = "Username should not be empty")
+    @NotEmpty(message = "Username should not be empty")
+    @Size(min = 3, max = 50, message = "Username should be between 3 and 50")
     @Column(name = "username")
     private String username;
 
+    @Email
+    @NotNull(message = "Email should not be empty")
+    @NotEmpty(message = "Email should not be empty")
+    @Size(max = 100, message = "Email should be greater then 50")
     @Column(name = "email")
     private String email;
 
+    @NotNull(message = "Password should not be empty")
+    @NotEmpty(message = "Password should not be empty")
     @Column(name = "password")
     private String password;
 
