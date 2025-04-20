@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -19,6 +20,20 @@ public class TaskService {
         this.tasksRepository = tasksRepository;
         this.authoriseUser = authoriseUser;
     }
+
+    public List<Tasks> findAll(){
+        return tasksRepository.findAll();
+    }
+
+    public List<Tasks> findMyTasks(){
+        return tasksRepository.findAllByAuthor(authoriseUser.getAuthorisePerson());
+    }
+
+    @Transactional
+    public void delete(Tasks tasks){
+        tasksRepository.deleteByTaskId(tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), tasks.getTitle()).get().getTask_id());
+    }
+
 
     @Transactional
     public void save(Tasks tasks){

@@ -2,6 +2,7 @@ package com.example.taskManager.controllers;
 
 import com.example.taskManager.dto.TaskCreateDTO;
 import com.example.taskManager.dto.TaskDTO;
+import com.example.taskManager.dto.TaskDeleteDTO;
 import com.example.taskManager.models.Tasks;
 import com.example.taskManager.services.TaskService;
 import com.example.taskManager.util.*;
@@ -10,10 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
@@ -22,11 +23,13 @@ public class CRUDTaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
     private final TaskSaveValidator taskSaveValidator;
+    private final TaskDeleteValidator taskDeleteValidator;
 
-    public CRUDTaskController(ModelMapper modelMapper, TaskService taskService, TaskSaveValidator taskSaveValidator) {
+    public CRUDTaskController(ModelMapper modelMapper, TaskService taskService, TaskSaveValidator taskSaveValidator, TaskDeleteValidator taskDeleteValidator) {
         this.modelMapper = modelMapper;
         this.taskService = taskService;
         this.taskSaveValidator = taskSaveValidator;
+        this.taskDeleteValidator = taskDeleteValidator;
     }
 
     @PostMapping()
@@ -34,27 +37,49 @@ public class CRUDTaskController {
 
         taskSaveValidator.validate(convertToTask(taskCreateDTO), bindingResult);
         if (bindingResult.hasErrors()){
-            StringBuilder error = new StringBuilder();
-
-            List<FieldError> errors = bindingResult.getFieldErrors();
-
-            for (FieldError fieldError : errors){
-                error.append("Error on field: " + fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage()).append(";    ");
-            }
-
-            throw new TaskNotValidException(error.toString());
+            throw new TaskNotValidException(CreateMessageError.createErrorMessage(bindingResult));
         }
 
         taskService.save(convertToTask(taskCreateDTO));
 
 
         return ResponseEntity.ok(HttpStatus.OK);
+    }
 
+    @GetMapping
+    public List<TaskDTO> getAllTasks(){
+        return taskService.findAll().stream().map(this::convertToTaskDTO).collect(Collectors.toList());
+    }
+
+    @GetMapping("/my")
+    public List<TaskDTO> getMyTasks(){
+        return taskService.findMyTasks().stream().map(this::convertToTaskDTO).collect(Collectors.toList());
+    }
+
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteTask(@RequestBody @Valid TaskDeleteDTO taskDeleteDTO, BindingResult bindingResult){
+
+        taskDeleteValidator.validate(convertToTask(taskDeleteDTO), bindingResult);
+        if (bindingResult.hasErrors()){
+            throw new TaskNotValidException(CreateMessageError.createErrorMessage(bindingResult));
+        }
+
+        taskService.delete(convertToTask(taskDeleteDTO));
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
-    public Tasks convertToTask(TaskCreateDTO taskCreateDTO){
+    private Tasks convertToTask(TaskCreateDTO taskCreateDTO){
         return modelMapper.map(taskCreateDTO, Tasks.class);
+    }
+
+    private Tasks convertToTask(TaskDeleteDTO task){
+        return modelMapper.map(task, Tasks.class);
+    }
+
+    private TaskDTO convertToTaskDTO(Tasks tasks){
+        return modelMapper.map(tasks, TaskDTO.class);
     }
 
     @ExceptionHandler
@@ -66,6 +91,13 @@ public class CRUDTaskController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> taskAlreadyExist(TaskAlreadyExistException e){
+        ErrorResponse response = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> taskNotFound(TaskNotFoundException e){
         ErrorResponse response = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

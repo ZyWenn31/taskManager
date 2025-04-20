@@ -16,9 +16,9 @@ public class TaskDTO {
 
     private String status;
 
-    private UserDTO author;
+    private UserOutputDTO author;
 
-    private UserDTO executor;
+    private UserOutputDTO executor;
 
     private List<CommentDTO> comments = new ArrayList<>();
 
@@ -54,19 +54,19 @@ public class TaskDTO {
         this.status = status;
     }
 
-    public UserDTO getAuthor() {
+    public UserOutputDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserDTO author) {
+    public void setAuthor(UserOutputDTO author) {
         this.author = author;
     }
 
-    public UserDTO getExecutor() {
+    public UserOutputDTO getExecutor() {
         return executor;
     }
 
-    public void setExecutor(UserDTO executor) {
+    public void setExecutor(UserOutputDTO executor) {
         this.executor = executor;
     }
 }

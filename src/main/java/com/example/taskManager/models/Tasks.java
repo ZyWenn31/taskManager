@@ -14,7 +14,7 @@ public class Tasks {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int task_id;
+    private int taskId;
 
     @Column(name = "title")
     private String title;
@@ -59,11 +59,11 @@ public class Tasks {
     }
 
     public int getTask_id() {
-        return task_id;
+        return taskId;
     }
 
     public void setTask_id(int task_id) {
-        this.task_id = task_id;
+        this.taskId = task_id;
     }
 
     public String getTitle() {
