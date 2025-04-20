@@ -18,4 +18,8 @@ public class UserRegistrationService {
     public Optional<User> loadPersonByEmail(String email){
         return usersRepository.findByEmail(email);
     }
+
+    public Optional<User> loadUserByUsername(String username){
+        return usersRepository.findByUsername(username);
+    }
 }

@@ -1,10 +1,5 @@
 package com.example.taskManager.dto;
 
-import com.example.taskManager.models.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 import java.util.ArrayList;
 import java.util.List;
 
