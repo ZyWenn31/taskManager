@@ -1,5 +1,6 @@
 package com.example.taskManager.models;
 
+import com.example.taskManager.util.StatusEnum;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class Tasks {
     private String description;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "user_id")
@@ -46,14 +48,14 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(String title, String description, String status, User author, User executor, Date created_at, Date updated_at) {
+    public Tasks(String title, String description,User author, User executor, Date created_at, Date updated_at, StatusEnum status) {
         this.title = title;
         this.description = description;
-        this.status = status;
         this.author = author;
         this.executor = executor;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.status = status;
     }
 
     public int getTask_id() {
@@ -80,11 +82,11 @@ public class Tasks {
         this.description = description;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
