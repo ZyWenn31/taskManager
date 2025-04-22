@@ -30,7 +30,10 @@ public class TaskService {
     }
 
     public List<Tasks> findMyTasks(){
-        return tasksRepository.findAllByAuthor(authoriseUser.getAuthorisePerson());
+        List<Tasks> allTasks = tasksRepository.findAllByAuthor(authoriseUser.getAuthorisePerson());
+        allTasks.addAll(tasksRepository.findAllByExecutor(authoriseUser.getAuthorisePerson()));
+
+        return allTasks;
     }
 
     @Transactional
@@ -40,7 +43,7 @@ public class TaskService {
 
     @Transactional
     public void editStatus(Tasks task){
-        Tasks editTask = tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).get();
+        Tasks editTask = tasksRepository.findByExecutorAndTitleOrAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle(), authoriseUser.getAuthorisePerson(), task.getTitle()).get();
 
         editTask.setStatus(task.getStatus());
         editTask.setUpdated_at(new Date());

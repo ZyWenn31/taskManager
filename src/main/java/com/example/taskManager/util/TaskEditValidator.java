@@ -28,7 +28,7 @@ public class TaskEditValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Tasks task = (Tasks) target;
 
-        if (tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isEmpty()){
+        if (tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isEmpty() && tasksRepository.findByExecutorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isEmpty()){
             throw new TaskNotFoundException("Task with this title and user not found");
         }
     }
