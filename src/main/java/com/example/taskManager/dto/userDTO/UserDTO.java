@@ -1,4 +1,4 @@
-package com.example.taskManager.dto;
+package com.example.taskManager.dto.userDTO;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;

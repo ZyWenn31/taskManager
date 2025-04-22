@@ -1,7 +1,8 @@
-package com.example.taskManager.util;
+package com.example.taskManager.util.validator;
 
 import com.example.taskManager.models.User;
 import com.example.taskManager.repositories.UsersRepository;
+import com.example.taskManager.util.exception.UserNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

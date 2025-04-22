@@ -1,4 +1,4 @@
-package com.example.taskManager.util;
+package com.example.taskManager.util.validator;
 
 import com.example.taskManager.models.User;
 import com.example.taskManager.services.UserRegistrationService;

@@ -2,13 +2,13 @@ package com.example.taskManager.controllers;
 
 
 import com.example.taskManager.dto.LoginDTO;
-import com.example.taskManager.dto.UserDTO;
+import com.example.taskManager.dto.userDTO.UserDTO;
 import com.example.taskManager.models.User;
 import com.example.taskManager.security.JWTUtil;
 import com.example.taskManager.services.RegistrationService;
 import com.example.taskManager.util.ErrorResponse;
-import com.example.taskManager.util.UserNotValidException;
-import com.example.taskManager.util.UserValidator;
+import com.example.taskManager.util.exception.UserNotValidException;
+import com.example.taskManager.util.validator.UserValidator;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;

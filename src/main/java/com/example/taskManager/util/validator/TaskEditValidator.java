@@ -1,17 +1,21 @@
-package com.example.taskManager.util;
+package com.example.taskManager.util.validator;
 
 import com.example.taskManager.models.Tasks;
 import com.example.taskManager.repositories.TasksRepository;
+import com.example.taskManager.util.AuthoriseUser;
+import com.example.taskManager.util.exception.TaskNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class TaskSaveValidator implements Validator {
+public class TaskEditValidator implements Validator {
+
     private final TasksRepository tasksRepository;
     private final AuthoriseUser authoriseUser;
 
-    public TaskSaveValidator(TasksRepository tasksRepository, AuthoriseUser authoriseUser) {
+
+    public TaskEditValidator(TasksRepository tasksRepository, AuthoriseUser authoriseUser) {
         this.tasksRepository = tasksRepository;
         this.authoriseUser = authoriseUser;
     }
@@ -26,10 +30,8 @@ public class TaskSaveValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Tasks task = (Tasks) target;
 
-
-        if (tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isPresent()){
-            throw new TaskAlreadyExistException("Task with this author and title already exist");
+        if (tasksRepository.findByAuthorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isEmpty() && tasksRepository.findByExecutorAndTitle(authoriseUser.getAuthorisePerson(), task.getTitle()).isEmpty()){
+            throw new TaskNotFoundException("Task with this title and user not found");
         }
-        return;
     }
 }

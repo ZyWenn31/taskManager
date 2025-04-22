@@ -1,10 +1,24 @@
 package com.example.taskManager.controllers;
 
-import com.example.taskManager.dto.*;
+import com.example.taskManager.dto.taskDTO.TaskCreateDTO;
+import com.example.taskManager.dto.taskDTO.TaskDTO;
+import com.example.taskManager.dto.taskDTO.TaskDeleteDTO;
+import com.example.taskManager.dto.taskDTO.taskEditDTO.TaskEditDescriptionDTO;
+import com.example.taskManager.dto.taskDTO.taskEditDTO.TaskEditExecutorDTO;
+import com.example.taskManager.dto.taskDTO.taskEditDTO.TaskEditStatusDTO;
+import com.example.taskManager.dto.userDTO.UserOutputDTO;
 import com.example.taskManager.models.Tasks;
 import com.example.taskManager.models.User;
 import com.example.taskManager.services.TaskService;
 import com.example.taskManager.util.*;
+import com.example.taskManager.util.exception.TaskAlreadyExistException;
+import com.example.taskManager.util.exception.TaskNotFoundException;
+import com.example.taskManager.util.exception.TaskNotValidException;
+import com.example.taskManager.util.exception.UserNotFoundException;
+import com.example.taskManager.util.validator.TaskDeleteValidator;
+import com.example.taskManager.util.validator.TaskEditValidator;
+import com.example.taskManager.util.validator.TaskSaveValidator;
+import com.example.taskManager.util.validator.UserExistValidator;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
-package com.example.taskManager.dto;
+package com.example.taskManager.dto.taskDTO.taskEditDTO;
 
+import com.example.taskManager.dto.userDTO.UserOutputDTO;
 import jakarta.validation.constraints.NotEmpty;
 
 public class TaskEditExecutorDTO {

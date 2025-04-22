@@ -1,4 +1,7 @@
-package com.example.taskManager.dto;
+package com.example.taskManager.dto.taskDTO;
+
+import com.example.taskManager.dto.CommentDTO;
+import com.example.taskManager.dto.userDTO.UserOutputDTO;
 
 import java.util.ArrayList;
 import java.util.List;

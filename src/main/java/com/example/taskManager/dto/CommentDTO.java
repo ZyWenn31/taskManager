@@ -1,10 +1,6 @@
 package com.example.taskManager.dto;
 
-import com.example.taskManager.models.Tasks;
-import com.example.taskManager.models.User;
-import jakarta.persistence.*;
-
-import java.util.Date;
+import com.example.taskManager.dto.userDTO.UserDTO;
 
 public class CommentDTO {
 
