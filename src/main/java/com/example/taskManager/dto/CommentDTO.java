@@ -1,14 +1,22 @@
 package com.example.taskManager.dto;
 
 import com.example.taskManager.dto.userDTO.UserDTO;
+import com.example.taskManager.dto.userDTO.UserOutputDTO;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CommentDTO {
 
+    @Size(min = 1, message = "content should not be empty")
     private String content;
 
-    private int taskId;
+    @NotEmpty(message = "title should not be empty")
+    private String taskTitle;
 
-    private UserDTO author;
+    //Это автор задачи а не комментария
+    @NotNull(message = "author should not be empty")
+    private UserOutputDTO author;
 
     public String getContent() {
         return content;
@@ -18,19 +26,19 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public String getTaskTitle() {
+        return taskTitle;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
     }
 
-    public UserDTO getAuthor() {
+    public UserOutputDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserDTO author) {
+    public void setAuthor(UserOutputDTO author) {
         this.author = author;
     }
 }

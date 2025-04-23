@@ -6,6 +6,7 @@ import com.example.taskManager.repositories.TasksRepository;
 import com.example.taskManager.repositories.UsersRepository;
 import com.example.taskManager.util.AuthoriseUser;
 import com.example.taskManager.util.StatusEnum;
+import com.example.taskManager.util.exception.TaskNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,10 @@ public class TaskService {
         allTasks.addAll(tasksRepository.findAllByExecutor(authoriseUser.getAuthorisePerson()));
 
         return allTasks;
+    }
+
+    public Tasks findTaskByAuthorAndTitle(User author, String title){
+        return tasksRepository.findByAuthorAndTitle(author, title).orElseThrow(() -> new TaskNotFoundException("Task with title '"+ title +"' not found"));
     }
 
     @Transactional
