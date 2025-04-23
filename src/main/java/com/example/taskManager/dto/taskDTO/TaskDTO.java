@@ -2,6 +2,7 @@ package com.example.taskManager.dto.taskDTO;
 
 import com.example.taskManager.dto.CommentDTO;
 import com.example.taskManager.dto.userDTO.UserOutputDTO;
+import com.example.taskManager.util.StatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class TaskDTO {
 
     private String description;
 
-    private String status;
+    private StatusEnum status;
 
     private UserOutputDTO author;
 
@@ -44,11 +45,11 @@ public class TaskDTO {
         this.description = description;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 

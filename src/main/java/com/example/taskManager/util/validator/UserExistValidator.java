@@ -27,7 +27,7 @@ public class UserExistValidator implements Validator {
         User user = (User) target;
 
         if (usersRepository.findByUsername(user.getUsername()).isEmpty()){
-            throw new UserNotFoundException("user with this username not found");
+            throw new UserNotFoundException("user with username '"+ user.getUsername() +"' not found");
         }
     }
 }

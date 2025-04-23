@@ -37,6 +37,18 @@ public class TaskService {
         return allTasks;
     }
 
+    public List<Tasks> findAllByAuthor(User user){
+        User author = usersRepository.findByUsername(user.getUsername()).get();
+
+        return tasksRepository.findAllByAuthor(author);
+    }
+
+    public List<Tasks> findAllByExecutor(User user){
+        User executor = usersRepository.findByUsername(user.getUsername()).get();
+
+        return tasksRepository.findAllByExecutor(executor);
+    }
+
     public Tasks findTaskByAuthorAndTitle(User author, String title){
         return tasksRepository.findByAuthorAndTitle(author, title).orElseThrow(() -> new TaskNotFoundException("Task with title '"+ title +"' not found"));
     }
