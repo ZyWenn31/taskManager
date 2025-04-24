@@ -6,9 +6,12 @@ import com.example.taskManager.repositories.TasksRepository;
 import com.example.taskManager.repositories.UsersRepository;
 import com.example.taskManager.util.AuthoriseUser;
 import com.example.taskManager.util.StatusEnum;
+import com.example.taskManager.util.exception.SizeAndPageException;
 import com.example.taskManager.util.exception.TaskNotFoundException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
@@ -37,16 +40,44 @@ public class TaskService {
         return allTasks;
     }
 
-    public List<Tasks> findAllByAuthor(User user){
+    public List<Tasks> findAllByAuthor(User user, boolean pagination, boolean sorting, String title, int page, int size) {
         User author = usersRepository.findByUsername(user.getUsername()).get();
 
-        return tasksRepository.findAllByAuthor(author);
+        if (!pagination && !sorting){
+            return tasksRepository.findAllByAuthor(author);
+        } if (!pagination && sorting){
+            return tasksRepository.findAllByAuthorAndTitleContaining(author, title);
+        } if (pagination && !sorting){
+            if (page < 0 || size <= 0){
+                throw new SizeAndPageException("Page or size not valid");
+            }
+            return tasksRepository.findAllByAuthor(author, PageRequest.of(page, size));
+        } else {
+            if (page < 0 || size <= 0){
+                throw new SizeAndPageException("Page or size not valid");
+            }
+            return tasksRepository.findAllByAuthorAndTitleContaining(author, title, PageRequest.of(page, size));
+        }
     }
 
-    public List<Tasks> findAllByExecutor(User user){
+    public List<Tasks> findAllByExecutor(User user, boolean pagination, boolean sorting, String title, int page, int size) {
         User executor = usersRepository.findByUsername(user.getUsername()).get();
 
-        return tasksRepository.findAllByExecutor(executor);
+        if (!pagination && !sorting){
+            return tasksRepository.findAllByExecutor(executor);
+        } if (!pagination && sorting){
+            return tasksRepository.findAllByExecutorAndTitleContaining(executor, title);
+        } if (pagination && !sorting){
+            if (page < 0 || size <= 0){
+                throw new SizeAndPageException("Page or size not valid");
+            }
+            return tasksRepository.findAllByExecutor(executor, PageRequest.of(page, size));
+        } else {
+            if (page < 0 || size <= 0){
+                throw new SizeAndPageException("Page or size not valid");
+            }
+            return tasksRepository.findAllByExecutorAndTitleContaining(executor, title, PageRequest.of(page, size));
+        }
     }
 
     public Tasks findTaskByAuthorAndTitle(User author, String title){
