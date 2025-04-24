@@ -75,6 +75,14 @@
 			<version>4.4.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-docker-compose -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-docker-compose</artifactId>
+			<version>3.4.4</version>
+			<optional>true</optional>
+		</dependency>
+
 
 	</dependencies>
 
@@ -83,8 +91,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludeDockerCompose>false</excludeDockerCompose>
+				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>taskManager</finalName>
 	</build>
 
 </project>
