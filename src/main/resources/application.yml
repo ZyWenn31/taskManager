@@ -3,15 +3,12 @@ spring:
     init:
       mode: never
 
-  docker:
-    compose:
-      profiles:
-        active: taskDB
-      lifecycle-management: start_and_stop
-      start:
-        command: up
-      stop:
-        command: stop
+  datasource:
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/taskManager_DB
+    driver-class-name: org.postgresql.Driver
+
 
   jpa:
     properties:
