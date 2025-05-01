@@ -6,8 +6,9 @@ spring:
   datasource:
     password: postgres
     username: postgres
-    url: jdbc:postgresql://localhost:5432/taskManager_DB
+    #url: jdbc:postgresql://localhost:5432/taskManager_DB
     driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
 
 
   jpa:
@@ -15,6 +16,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
+        hbm2ddl:
+          auto: update
     show-sql: true
 
 server:
